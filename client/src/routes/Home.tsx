@@ -36,63 +36,68 @@ export default function Home() {
   };
 
   return (
-    <main className="mx-auto min-h-dvh max-w-[480px] px-6 pt-6 pb-32">
-      <SearchBar />
-      <WeekStrip selected={selected} onSelect={setSelected} daysWithTasks={daysWithTasks} />
+    // Desktop (lg): the overview column stays put on the left, task lists scroll on the right. Mobile is the Figma column.
+    <main className="mx-auto min-h-dvh max-w-[480px] px-6 pt-6 pb-32 lg:grid lg:max-w-[1120px] lg:grid-cols-[380px_minmax(0,1fr)] lg:items-start lg:gap-x-12 lg:px-10 lg:pt-10">
+      <div className="lg:sticky lg:top-10">
+        <SearchBar />
+        <WeekStrip selected={selected} onSelect={setSelected} daysWithTasks={daysWithTasks} />
 
-      <section aria-label="This week's counts" className="mt-6 grid grid-cols-2 gap-4">
-        <StatCard label="Task Complete" count={completed} tone="complete" loading={tasks.isPending} />
-        <StatCard label="Task Pending" count={pending} tone="pending" loading={tasks.isPending} />
-      </section>
+        <section aria-label="This week's counts" className="mt-6 grid grid-cols-2 gap-4">
+          <StatCard label="Task Complete" count={completed} tone="complete" loading={tasks.isPending} />
+          <StatCard label="Task Pending" count={pending} tone="pending" loading={tasks.isPending} />
+        </section>
 
-      <section aria-labelledby="progress-heading" className="mt-8">
-        <h2 id="progress-heading" className="text-lg font-semibold">
-          Weekly Progress
-        </h2>
-        <div
-          role="progressbar"
-          aria-labelledby="progress-heading"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={progress}
-          aria-valuetext={`${completed} of ${items.length} tasks completed`}
-          className="mt-3 h-6 bg-progress-track"
-        >
-          <div className="h-full bg-primary-strong transition-[width] duration-300" style={{ width: `${progress}%` }} />
-        </div>
-      </section>
-
-      <section aria-labelledby="day-heading" className="mt-8">
-        <div className="flex items-baseline justify-between">
-          <h2 id="day-heading" className="text-lg font-semibold">
-            {isToday ? "Tasks Today" : dayLabel(selected)}
+        <section aria-labelledby="progress-heading" className="mt-8">
+          <h2 id="progress-heading" className="text-lg font-semibold">
+            Weekly Progress
           </h2>
-          <button type="button" onClick={viewAll} className="rounded text-sm text-primary focus-visible:outline-2 focus-visible:outline-primary">
-            View All
-          </button>
-        </div>
-        <ListState query={tasks} isEmpty={!tasks.isPending && dayTasks.length === 0} empty="No tasks for this day. Tap + to add one.">
-          <ul className="mt-2">
-            {dayTasks.map((t) => (
-              <TaskRow key={t.id} task={t} />
-            ))}
-          </ul>
-        </ListState>
-      </section>
+          <div
+            role="progressbar"
+            aria-labelledby="progress-heading"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progress}
+            aria-valuetext={`${completed} of ${items.length} tasks completed`}
+            className="mt-3 h-6 bg-progress-track"
+          >
+            <div className="h-full bg-primary-strong transition-[width] duration-300" style={{ width: `${progress}%` }} />
+          </div>
+        </section>
+      </div>
 
-      <section id="all-weeks" aria-labelledby="weeks-heading" className="mt-8 scroll-mt-6">
-        <h2 id="weeks-heading" className="text-lg font-semibold">
-          All weeks
-        </h2>
-        <ListState query={weeks} empty="No tasks yet. Weeks show up here once you add one.">
-          <ul className="mt-3 space-y-3">
-            {weeks.data?.map((w) => {
-              const ws = new Date(w.weekStart).getTime();
-              return <WeekCard key={w.weekStart} week={w} expanded={openWeeks.includes(ws)} onToggle={() => toggleWeek(ws)} />;
-            })}
-          </ul>
-        </ListState>
-      </section>
+      <div>
+        <section aria-labelledby="day-heading" className="mt-8 lg:mt-0 lg:rounded lg:border lg:border-border lg:bg-surface lg:p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 id="day-heading" className="text-lg font-semibold">
+              {isToday ? "Tasks Today" : dayLabel(selected)}
+            </h2>
+            <button type="button" onClick={viewAll} className="rounded text-sm text-primary focus-visible:outline-2 focus-visible:outline-primary">
+              View All
+            </button>
+          </div>
+          <ListState query={tasks} isEmpty={!tasks.isPending && dayTasks.length === 0} empty="No tasks for this day. Tap + to add one.">
+            <ul className="mt-2">
+              {dayTasks.map((t) => (
+                <TaskRow key={t.id} task={t} />
+              ))}
+            </ul>
+          </ListState>
+        </section>
+
+        <section id="all-weeks" aria-labelledby="weeks-heading" className="mt-8 scroll-mt-6 lg:scroll-mt-10">
+          <h2 id="weeks-heading" className="text-lg font-semibold">
+            All weeks
+          </h2>
+          <ListState query={weeks} empty="No tasks yet. Weeks show up here once you add one.">
+            <ul className="mt-3 space-y-3">
+              {weeks.data?.map((w) => {
+                const ws = new Date(w.weekStart).getTime();
+                return <WeekCard key={w.weekStart} week={w} expanded={openWeeks.includes(ws)} onToggle={() => toggleWeek(ws)} />;
+              })}
+            </ul>
+          </ListState>
+        </section>
+      </div>
 
       <Fab onClick={() => openNew(selected)} />
       <TaskSheet onCreated={(t) => setSelected(new Date(t.startAt))} />

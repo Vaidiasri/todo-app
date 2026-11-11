@@ -21,7 +21,7 @@ export default function Search() {
   const items = search.data?.pages.flatMap((p) => p.items) ?? [];
 
   return (
-    <main className="mx-auto min-h-dvh max-w-[480px] px-6 pt-6 pb-32">
+    <main className="mx-auto min-h-dvh max-w-[480px] px-6 pt-6 pb-32 lg:max-w-[760px] lg:pt-10">
       <div className="flex items-center gap-2">
         <Link to="/" aria-label="Back to home" className="-ml-2 grid size-10 shrink-0 place-items-center rounded focus-visible:outline-2 focus-visible:outline-primary">
           <ArrowLeft size={22} aria-hidden />

@@ -25,6 +25,9 @@ export function parseDayKey(s: string | null): Date | null {
   return Number.isNaN(d.getTime()) || dayKey(d) !== s ? null : d;
 }
 
+/** Local time as "HH:MM" (the value of an <input type="time">). */
+export const timeKey = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
 /** Form date + time ("HH:MM") read as local time. */
 export const combineDateTime = (date: string, time: string) => new Date(`${date}T${time}`);
 

@@ -242,31 +242,31 @@ Order follows Tracer Bullet slices (no project build approach was recorded, so t
 9. `TaskSheet` with `TaskForm` in create mode: fields, inline validation, disabled save while pending, invalidation, toast. Satisfies **AC-1**, **AC-2**. **[x] Done 2026-11-11.**
 
 **Slice 2: status and stats**
-10. `PATCH /api/tasks/:id` with partial schema and merged end time check. Satisfies **AC-2**, **AC-3**, **AC-9**.
-11. Checkbox with optimistic toggle and revert; stat cards and Weekly Progress from the week response. Satisfies **AC-8**, **AC-9**.
+10. `PATCH /api/tasks/:id` with partial schema and merged end time check. Satisfies **AC-2**, **AC-3**, **AC-9**. **[x] Done 2026-11-11.**
+11. Checkbox with optimistic toggle and revert; stat cards and Weekly Progress from the week response. Satisfies **AC-8**, **AC-9**. **[x] Done 2026-11-11.**
 
 **Slice 3: view, edit, delete**
-12. `GET /api/tasks/:id`, `DELETE /api/tasks/:id`. Satisfies **AC-4**, **AC-11**, **AC-15**.
-13. View sheet, edit mode of the form, URL driven sheet state. Satisfies **AC-3**, **AC-15**.
-14. Trash with `ConfirmDialog`; swipe to delete on `TaskRow`; 404 handling with toast and refetch. Satisfies **AC-4**.
+12. `GET /api/tasks/:id`, `DELETE /api/tasks/:id`. Satisfies **AC-4**, **AC-11**, **AC-15**. **[x] Done 2026-11-11.**
+13. View sheet, edit mode of the form, URL driven sheet state. Satisfies **AC-3**, **AC-15**. **[x] Done 2026-11-11.**
+14. Trash with `ConfirmDialog`; swipe to delete on `TaskRow`; 404 handling with toast and refetch. Satisfies **AC-4**. **[x] Done 2026-11-11.**
 
 **Slice 4: weeks**
-15. `GET /api/weeks?tz` aggregation with tz validation. Satisfies **AC-6**, **AC-7**.
-16. All weeks section with `WeekCard` (lazy range fetch on expand, "This week" label) and "View All". Satisfies **AC-7**, **AC-8**.
+15. `GET /api/weeks?tz` aggregation with tz validation. Satisfies **AC-6**, **AC-7**. **[x] Done 2026-11-11.**
+16. All weeks section with `WeekCard` (lazy range fetch on expand, "This week" label) and "View All". Satisfies **AC-7**, **AC-8**. **[x] Done 2026-11-11.**
 
 **Slice 5: search**
-17. `GET /api/tasks/search` with escaping and cursor. Satisfies **AC-5**.
-18. Search route: debounced input, infinite query, shared `TaskRow` with date line, empty state, Load more. Satisfies **AC-5**.
+17. `GET /api/tasks/search` with escaping and cursor. Satisfies **AC-5**. **[x] Done 2026-11-11.**
+18. Search route: debounced input, infinite query, shared `TaskRow` with date line, empty state, Load more. Satisfies **AC-5**. **[x] Done 2026-11-11.**
 
 **Slice 6: onboarding**
-19. Onboarding screen with SVG decoration and the `todo.onboarded` gate. Satisfies **AC-10**.
+19. Onboarding screen with SVG decoration and the `todo.onboarded` gate. Satisfies **AC-10**. **[x] Done 2026-11-11.**
 
 **Slice 7: harden and ship**
-20. Loading skeletons, empty states, inline errors with Retry, toaster with an `aria-live` region. Satisfies **AC-14**.
-21. Responsive pass (320 px to 1440 px, centred column, sheet as modal from 640 px) and accessibility pass (labels, focus rings, keyboard, contrast). Satisfies **AC-12**, **AC-16**.
-22. Rate limiter, security headers check, request logging with hashed client id. Satisfies **AC-11**.
-23. Server integration tests and client unit tests from Critical test scenarios; layout check at the listed viewports. Satisfies **AC-2**, **AC-5**, **AC-6**, **AC-11**, **AC-12**.
-24. README (setup, env, scripts, deploy, live URL), final deploy and deploy smoke test, push to GitHub. Satisfies **AC-13**.
+20. Loading skeletons, empty states, inline errors with Retry, toaster with an `aria-live` region. Satisfies **AC-14**. **[x] Done 2026-11-11.**
+21. Responsive pass (320 px to 1440 px, centred column, sheet as modal from 640 px) and accessibility pass (labels, focus rings, keyboard, contrast). Satisfies **AC-12**, **AC-16**. **[x] Done 2026-11-11 (checked at 320, 360, 390, 1024, 1280, 1440 px; `muted-2` and `icon` tokens darkened from the Figma to pass contrast).**
+22. Rate limiter, security headers check, request logging with hashed client id. Satisfies **AC-11**. **[x] Done 2026-11-11.**
+23. Server integration tests and client unit tests from Critical test scenarios; layout check at the listed viewports. Satisfies **AC-2**, **AC-5**, **AC-6**, **AC-11**, **AC-12**. **[x] Done 2026-11-11 (server 18, client 11 tests).**
+24. README (setup, env, scripts, deploy, live URL), final deploy and deploy smoke test, push to GitHub. Satisfies **AC-13**. **README done 2026-11-11; deploy and push owed (needs you).**
 
 ## Consequences
 

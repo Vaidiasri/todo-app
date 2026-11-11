@@ -4,15 +4,48 @@ import { HttpError } from "../errors";
 const DAY_MS = 24 * 60 * 60 * 1000;
 const isoDate = z.iso.datetime({ offset: true }).transform((s) => new Date(s));
 
+const fields = {
+  title: z.string().trim().min(1, "Title is required").max(120, "Title must be at most 120 characters"),
+  description: z.string().trim().max(1000, "Description must be at most 1000 characters"),
+  startAt: isoDate,
+  endAt: isoDate.nullable(),
+  priority: z.enum(["low", "medium", "high"]).nullable(),
+  status: z.enum(["in_progress", "completed"]),
+};
+
 export const createTaskSchema = z
   .object({
-    title: z.string().trim().min(1, "Title is required").max(120, "Title must be at most 120 characters"),
-    description: z.string().trim().max(1000, "Description must be at most 1000 characters").default(""),
-    startAt: isoDate,
-    endAt: isoDate.nullable().default(null),
-    priority: z.enum(["low", "medium", "high"]).nullable().default(null),
+    title: fields.title,
+    description: fields.description.default(""),
+    startAt: fields.startAt,
+    endAt: fields.endAt.default(null),
+    priority: fields.priority.default(null),
   })
   .superRefine((t, ctx) => endAtIssue(t.startAt, t.endAt, ctx));
+
+export const patchTaskSchema = z.object(fields).partial();
+
+// PATCH checks the stored values merged with the patch.
+export const mergedTimesSchema = z
+  .object({ startAt: z.date(), endAt: z.date().nullable() })
+  .superRefine((t, ctx) => endAtIssue(t.startAt, t.endAt, ctx));
+
+export const searchQuerySchema = z.object({
+  q: z.string().trim().min(1, "Enter a search term").max(100, "Search must be at most 100 characters"),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+  cursor: z.string().optional(),
+});
+
+export const weeksQuerySchema = z.object({
+  tz: z.string().refine((tz) => {
+    try {
+      new Intl.DateTimeFormat("en", { timeZone: tz });
+      return true;
+    } catch {
+      return false;
+    }
+  }, "Unknown time zone"),
+});
 
 export function endAtIssue(startAt: Date, endAt: Date | null, ctx: z.RefinementCtx) {
   if (!endAt) return;

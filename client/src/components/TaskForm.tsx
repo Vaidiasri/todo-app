@@ -1,8 +1,8 @@
 import { CalendarDays, Clock } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { ApiError } from "../api/client";
-import { useCreateTask, type Priority, type Task } from "../api/tasks";
-import { combineDateTime, longDateLabel, parseDayKey } from "../lib/week";
+import { useCreateTask, useUpdateTask, type Priority, type Task } from "../api/tasks";
+import { combineDateTime, longDateLabel, parseDayKey, timeKey } from "../lib/week";
 import { toast } from "./Toaster";
 
 type Field = "title" | "date" | "startAt" | "endAt" | "description";
@@ -33,43 +33,46 @@ function validate(v: { title: string; date: string; start: string; end: string }
   return e;
 }
 
-export function TaskForm({ defaultDate, onCreated }: { defaultDate: string; onCreated: (t: Task) => void }) {
-  const [title, setTitle] = useState("");
+/** Create mode, or edit mode when `initial` is given. */
+export function TaskForm({ defaultDate, initial, onSaved }: { defaultDate: string; initial?: Task; onSaved: (t: Task) => void }) {
+  const [title, setTitle] = useState(initial?.title ?? "");
   const [date, setDate] = useState(defaultDate);
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
-  const [priority, setPriority] = useState<Priority | null>(null);
-  const [description, setDescription] = useState("");
+  const [start, setStart] = useState(initial ? timeKey(new Date(initial.startAt)) : "");
+  const [end, setEnd] = useState(initial?.endAt ? timeKey(new Date(initial.endAt)) : "");
+  const [priority, setPriority] = useState<Priority | null>(initial?.priority ?? null);
+  const [description, setDescription] = useState(initial?.description ?? "");
   const [errors, setErrors] = useState<Errors>({});
   const create = useCreateTask();
+  const update = useUpdateTask();
+  const pending = create.isPending || update.isPending;
 
   const clear = (f: Field) => errors[f] && setErrors((e) => ({ ...e, [f]: undefined }));
 
   function submit(ev: React.FormEvent) {
     ev.preventDefault();
-    if (create.isPending) return;
+    if (pending) return;
     const e = validate({ title, date, start, end });
     setErrors(e);
     if (Object.keys(e).length) {
       document.getElementById(`f-${Object.keys(e)[0]}`)?.focus();
       return;
     }
-    create.mutate(
-      {
-        title: title.trim(),
-        description: description.trim(),
-        startAt: combineDateTime(date, start).toISOString(),
-        endAt: end ? combineDateTime(date, end).toISOString() : null,
-        priority,
+    const input = {
+      title: title.trim(),
+      description: description.trim(),
+      startAt: combineDateTime(date, start).toISOString(),
+      endAt: end ? combineDateTime(date, end).toISOString() : null,
+      priority,
+    };
+    const opts = {
+      onSuccess: onSaved,
+      onError: (err: Error) => {
+        if (err instanceof ApiError && err.fields) setErrors(err.fields as Errors);
+        else toast(err.message || "Could not save the task");
       },
-      {
-        onSuccess: onCreated,
-        onError: (err) => {
-          if (err instanceof ApiError && err.fields) setErrors(err.fields as Errors);
-          else toast(err.message || "Could not create the task");
-        },
-      },
-    );
+    };
+    if (initial) update.mutate({ id: initial.id, input }, opts);
+    else create.mutate(input, opts);
   }
 
   const dateObj = parseDayKey(date);
@@ -86,7 +89,7 @@ export function TaskForm({ defaultDate, onCreated }: { defaultDate: string; onCr
             onChange={(e) => (setTitle(e.target.value), clear("title"))}
             aria-invalid={!!errors.title}
             aria-describedby={errors.title ? "f-title-err" : undefined}
-            className={`${box} ${borderFor(errors.title)} px-3 placeholder:text-icon`}
+            className={`${box} ${borderFor(errors.title)} px-3 placeholder:text-muted`}
           />
         </Row>
 
@@ -138,7 +141,7 @@ export function TaskForm({ defaultDate, onCreated }: { defaultDate: string; onCr
               className={`peer ${box} ${borderFor(errors.date)} pr-10 pl-3 text-transparent focus:text-ink ${hidePickerIcon}`}
             />
             <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-sm peer-focus:hidden">
-              {dateObj ? longDateLabel(dateObj) : <span className="text-icon">Pick a date</span>}
+              {dateObj ? longDateLabel(dateObj) : <span className="text-muted">Pick a date</span>}
             </span>
             <CalendarDays size={18} aria-hidden className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2" />
           </div>
@@ -146,7 +149,7 @@ export function TaskForm({ defaultDate, onCreated }: { defaultDate: string; onCr
 
         <div>
           <p id="f-priority" className="mb-2 text-[13px] text-muted">
-            Priority <span className="text-icon">(optional)</span>
+            Priority <span className="text-muted">(optional)</span>
           </p>
           <div role="group" aria-labelledby="f-priority" className="grid grid-cols-3 gap-2">
             {PRIORITIES.map((p) => (
@@ -180,10 +183,10 @@ export function TaskForm({ defaultDate, onCreated }: { defaultDate: string; onCr
       <div className="border-t border-divider bg-surface px-6 pt-3 pb-6">
         <button
           type="submit"
-          disabled={create.isPending}
+          disabled={pending}
           className="h-12 w-full rounded bg-primary text-[15px] font-medium text-white hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60"
         >
-          {create.isPending ? "Creating task..." : "Create task"}
+          {initial ? (pending ? "Saving..." : "Save changes") : pending ? "Creating task..." : "Create task"}
         </button>
       </div>
     </form>

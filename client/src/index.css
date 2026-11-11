@@ -13,8 +13,9 @@
   --color-danger: #bc393e;
   --color-ink: #090e23;
   --color-muted: #717171;
-  --color-muted-2: #6e7180;
-  --color-icon: #c0c0c0;
+  /* Darkened from the Figma (#6e7180, #c0c0c0) to pass WCAG: 4.5:1 small text on the tinted cards, 3:1 icons. */
+  --color-muted-2: #5f6271;
+  --color-icon: #8e8e8e;
   --color-border: #eaeaea;
   --color-divider: #ececec;
   --color-page: #fdfdff;

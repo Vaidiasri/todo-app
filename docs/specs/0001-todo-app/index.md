@@ -236,10 +236,10 @@ Order follows Tracer Bullet slices (no project build approach was recorded, so t
 5. Create the Atlas cluster and database user, set `MONGODB_URI` on Netlify, deploy, and confirm `/api/health` shows `db: "up"`. Satisfies **AC-13**.
 
 **Slice 1: create and see a task**
-6. `Task` model and index; `clientId` middleware; `zod` schemas for create and range query; `POST /api/tasks`, `GET /api/tasks?from&to`; serializer. Satisfies **AC-1**, **AC-2**, **AC-11**, **AC-13**.
-7. Client: `clientId.ts`, fetch wrapper with `X-Client-Id` and `ApiError`, `lib/week.ts` with tests. Satisfies **AC-6**, **AC-11**.
-8. Home: search bar (link only), week row, day strip with dots, day list with `TaskRow` (read only), add button. Satisfies **AC-6**, **AC-8**.
-9. `TaskSheet` with `TaskForm` in create mode: fields, inline validation, disabled save while pending, invalidation, toast. Satisfies **AC-1**, **AC-2**.
+6. `Task` model and index; `clientId` middleware; `zod` schemas for create and range query; `POST /api/tasks`, `GET /api/tasks?from&to`; serializer. Satisfies **AC-1**, **AC-2**, **AC-11**, **AC-13**. **[x] Done 2026-11-11.**
+7. Client: `clientId.ts`, fetch wrapper with `X-Client-Id` and `ApiError`, `lib/week.ts` with tests. Satisfies **AC-6**, **AC-11**. **[x] Done 2026-11-11.**
+8. Home: search bar (link only), week row, day strip with dots, day list with `TaskRow` (read only), add button. Satisfies **AC-6**, **AC-8**. **[x] Done 2026-11-11 (add button centred per the Figma, not bottom right).**
+9. `TaskSheet` with `TaskForm` in create mode: fields, inline validation, disabled save while pending, invalidation, toast. Satisfies **AC-1**, **AC-2**. **[x] Done 2026-11-11.**
 
 **Slice 2: status and stats**
 10. `PATCH /api/tasks/:id` with partial schema and merged end time check. Satisfies **AC-2**, **AC-3**, **AC-9**.

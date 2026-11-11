@@ -1,7 +1,7 @@
 # 0001. Build the weekly To Do List app on MERN with a Netlify hosted API
 
 **Date**: 2026-11-11
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
@@ -233,7 +233,7 @@ Order follows Tracer Bullet slices (no project build approach was recorded, so t
 2. Server: `createApp()` with JSON body limit, error handler and error JSON shape, `GET /api/health`, cached `connectDb()`, `local.ts` listener. Satisfies **AC-13**. **[x] Done 2026-11-11.**
 3. Function `netlify/functions/api.ts` with `serverless-http`, router mounted at `/api` and `/.netlify/functions/api`; `netlify.toml` with build, functions, redirects and headers. Satisfies **AC-13**. **[x] Done 2026-11-11 (handler run locally on both paths; not yet deployed).**
 4. Client: Vite React app with Tailwind v4 tokens, Poppins, router with three empty routes, Vite proxy for `/api`. Satisfies **AC-12**, **AC-13**. **[x] Done 2026-11-11.**
-5. Create the Atlas cluster and database user, set `MONGODB_URI` on Netlify, deploy, and confirm `/api/health` shows `db: "up"`. Satisfies **AC-13**.
+5. Create the Atlas cluster and database user, set `MONGODB_URI` on Netlify, deploy, and confirm `/api/health` shows `db: "up"`. Satisfies **AC-13**. **[x] Done 2026-11-11.**
 
 **Slice 1: create and see a task**
 6. `Task` model and index; `clientId` middleware; `zod` schemas for create and range query; `POST /api/tasks`, `GET /api/tasks?from&to`; serializer. Satisfies **AC-1**, **AC-2**, **AC-11**, **AC-13**. **[x] Done 2026-11-11.**
@@ -266,7 +266,7 @@ Order follows Tracer Bullet slices (no project build approach was recorded, so t
 21. Responsive pass (320 px to 1440 px, centred column, sheet as modal from 640 px) and accessibility pass (labels, focus rings, keyboard, contrast). Satisfies **AC-12**, **AC-16**. **[x] Done 2026-11-11 (checked at 320, 360, 390, 1024, 1280, 1440 px; `muted-2` and `icon` tokens darkened from the Figma to pass contrast).**
 22. Rate limiter, security headers check, request logging with hashed client id. Satisfies **AC-11**. **[x] Done 2026-11-11.**
 23. Server integration tests and client unit tests from Critical test scenarios; layout check at the listed viewports. Satisfies **AC-2**, **AC-5**, **AC-6**, **AC-11**, **AC-12**. **[x] Done 2026-11-11 (server 18, client 11 tests).**
-24. README (setup, env, scripts, deploy, live URL), final deploy and deploy smoke test, push to GitHub. Satisfies **AC-13**. **README done 2026-11-11; deploy and push owed (needs you).**
+24. README (setup, env, scripts, deploy, live URL), final deploy and deploy smoke test, push to GitHub. Satisfies **AC-13**. **[x] Done 2026-11-11 (live at https://todo-list-weekly.netlify.app; smoke tested create, toggle, edit, search, weeks, delete).**
 
 ## Consequences
 

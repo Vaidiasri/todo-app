@@ -2,7 +2,7 @@
 
 A weekly To Do List app. You can add, view, edit, complete and delete tasks, see this week's progress, browse every week that has tasks, and search across all of them.
 
-**Live URL:** TBD (added after the first Netlify deploy)
+**Live URL:** https://todo-list-weekly.netlify.app
 
 ## Stack
 

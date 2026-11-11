@@ -1,0 +1,19 @@
+{
+  "name": "todo-app",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run typecheck -w server && npm run build -w client",
+    "test": "npm test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}

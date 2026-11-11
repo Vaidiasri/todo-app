@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.netlify/
+.playwright-mcp/
+.claude/
+*.log
+
+# env files (keep the example)
+.env
+.env.*
+!.env.example
+
+# assessment brief, not for the public repo
+SDE I - Assessment.pdf

@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+/* Tokens sampled from the Figma render (spec 0001, UI spec). Close, not exact. */
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #4566ec;
+  --color-primary-strong: #253c98;
+  --color-complete-ink: #1c3082;
+  --color-progress-track: #dadaff;
+  --color-complete-bg: #eff2ff;
+  --color-pending-bg: #ffe6e7;
+  --color-danger: #bc393e;
+  --color-ink: #090e23;
+  --color-muted: #717171;
+  --color-muted-2: #6e7180;
+  --color-icon: #c0c0c0;
+  --color-border: #eaeaea;
+  --color-divider: #ececec;
+  --color-page: #fdfdff;
+  --color-surface: #ffffff;
+  --color-overlay: rgb(0 0 0 / 0.25);
+}
+
+html,
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
